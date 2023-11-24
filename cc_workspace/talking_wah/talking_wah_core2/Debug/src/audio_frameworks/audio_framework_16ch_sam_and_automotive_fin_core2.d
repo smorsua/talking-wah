@@ -1,0 +1,2 @@
+src/audio_frameworks/audio_framework_16ch_sam_and_automotive_fin_core2.doj: ../src/audio_frameworks/audio_framework_16ch_sam_and_automotive_fin_core2.c
+src/audio_frameworks/audio_framework_16ch_sam_and_automotive_fin_core2.doj: ../../common/audio_system_config.h
