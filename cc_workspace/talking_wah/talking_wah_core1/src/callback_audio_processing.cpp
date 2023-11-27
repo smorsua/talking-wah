@@ -239,7 +239,7 @@ void processaudio_callback(void) {
 	//peak_freq += sin(counter*0.01) * 100;
 	//counter++;
 	peak_freq += 1;
-	if(peak_freq == 2000) {
+	if(peak_freq >= 2000) {
 		RESULT_BIQUAD res = filter_modify_freq(&peak_filter, peak_freq);
 	}
 
