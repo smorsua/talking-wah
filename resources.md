@@ -2,3 +2,4 @@
 [Human Voices and the Wah Pedal](http://geofex.com/Article_Folders/wahpedl/voicewah.htm)
 [Sing-Wah - A Vocal-Emulation Wah Circuit](http://geofex.com/Article_Folders/sing-wah/sing-wah.htm)
 [Dunlop CryBaby GCB-95 Cicuit Analysis](https://www.electrosmash.com/crybaby-gcb-95)
+[What Is The Auto-Wah/Envelope Filter Modulation Effect?](https://mynewmicrophone.com/what-is-the-auto-wah-envelope-filter-modulation-effect/#Q/Peak/Resonance)
