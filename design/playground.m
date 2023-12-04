@@ -14,7 +14,7 @@
 % end
 
 Q = 10;
-for f = 100:100:2000
+for f = 100:100:1000
     [b,a] = peak_filter(f,f/Q,44100);
     if f == 100
         handle = fvtool(b,a);

@@ -188,12 +188,14 @@
  */
 
 
-BIQUAD_FILTER peak_filter;
-float pm sos_coeffs[4];
-float peak_freq = 1000;
+//BIQUAD_FILTER peak_filter;
+//float pm sos_coeffs[4];
+//float peak_freq = 1000;
 /*
  * Place any initialization code here for the audio processing
  */
+#include "peak_filter.hpp"
+PEAK_FILTER peak_filter;
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -202,13 +204,18 @@ void processaudio_setup(void) {
 	// Add any custom setup code here
 	// *******************************************************************************
 
-	RESULT_BIQUAD res = filter_setup(&peak_filter,
-			BIQUAD_TYPE_PEAKING,
-			BIQUAD_TRANS_VERY_FAST,
-			sos_coeffs,
-			peak_freq,
-			10,
-			1,
+//	RESULT_BIQUAD res = filter_setup(&peak_filter,
+//			BIQUAD_TYPE_PEAKING,
+//			BIQUAD_TRANS_VERY_FAST,
+//			sos_coeffs,
+//			peak_freq,
+//			10,
+//			1,
+//			AUDIO_SAMPLE_RATE);
+
+	peak_filter_setup(&peak_filter,
+			1000,
+			5,
 			AUDIO_SAMPLE_RATE);
 }
 
@@ -234,21 +241,31 @@ void processaudio_setup(void) {
 
 // When debugging audio algorithms, helpful to comment out this pragma for more linear single stepping.
 //#pragma optimize_for_speed
-float counter = 0;
+//float counter = 0;
 void processaudio_callback(void) {
-	//peak_freq += sin(counter*0.01) * 100;
-	//counter++;
-	peak_freq += 1;
-	if(peak_freq >= 2000) {
-		RESULT_BIQUAD res = filter_modify_freq(&peak_filter, peak_freq);
-	}
-
-
-	filter_read(&peak_filter, audiochannel_0_left_in, audiochannel_0_left_out, AUDIO_BLOCK_SIZE);
+	peak_filter_read(&peak_filter,
+			audiochannel_0_left_in,
+			audiochannel_0_left_out,
+			AUDIO_BLOCK_SIZE);
 
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
 		audiochannel_0_right_out[i] = audiochannel_0_right_in[i];
 	}
+
+//	//peak_freq += sin(counter*0.01) * 100;
+//	//counter++;
+//
+//	peak_freq += 1;
+//	if(peak_freq >= 2000) {
+//		RESULT_BIQUAD res = filter_modify_freq(&peak_filter, peak_freq);
+//	}
+//
+//
+//	filter_read(&peak_filter, audiochannel_0_left_in, audiochannel_0_left_out, AUDIO_BLOCK_SIZE);
+//
+//	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
+//		audiochannel_0_right_out[i] = audiochannel_0_right_in[i];
+//	}
 }
 
 #if (USE_BOTH_CORES_TO_PROCESS_AUDIO)
