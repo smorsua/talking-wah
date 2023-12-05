@@ -23,179 +23,17 @@
 // Prototypes for this file
 #include "callback_audio_processing.h"
 
-/*
- *
- * Available Processing Power
- * --------------------------
- *
- * The two SHARC cores provide a hefty amount of audio processing power.  However, it is
- * important to ensure that any audio processing code can run and complete within one frame of audio.
- *
- * The total number of cycles available in the audio callback can be calculated as follows:
- *
- * total cycles = ( processor-clock-speed * audio-block-size ) / audio-sample-rate//
- *
- * For example, if the processor is running at 450MHz, the audio sampling rate is 48KHz and the
- * audio block size is set to 32 words, the total number of processor cycles available in each
- * callback is 300,000 cycles or 300,000/32 or 9,375 per sample of audio.
- *
- * Available Audio Buffers
- * -----------------------
- *
- * There are several sets of audio input and output buffers that correspond to the
- * various peripherals (e.g. audio codec, USB, S/PDIF, A2B).
- *
- * To send audio from USB out the DAC on the ADAU1761 one simply needs to copy data
- * from the USB buffers and copy them to the ADAU1761 buffer.
- *
- * for (i=0;i<AUDIO_BLOCK_SIZE;i++) {
- *   audiochannel_adau1761_0_left_out[i] = audiochannel_USB_0_left_in[i];
- *   audiochannel_adau1761_0_right_out[i] = audiochannel_USB_0_right_in[i];
- * }
- *
- * The framework ensures that audio is sample rate converted as needed (e.g S/PDIF)
- * and arrives where it needs to be on time using DMA.  It also manages the conversion
- * between fixed and floating point.
- *
- * Below is a list of the various input buffers and output buffers that are available.
- * Be sure that the corresponding peripheral has been enabled in audio_system_config.h
- *
- * Input Buffers
- * *************
- *
- *  Audio from the ADAU1761 ADCs
- *     audiochannel_adau1761_0_left_in[]
- *     audiochannel_adau1761_0_left_in[]
- *
- *  Audio from the S/PDIF receiver
- *     audiochannel_spdif_0_left_in[]
- *     audiochannel_spdif_0_right_in[]
- *
- *  Audio from USB (be sure to enable USB in audio_system_config.h)
- *     audiochannel_USB_0_left_in[]
- *     audiochannel_USB_0_right_in[]
- *
- *  Audio from A2B Bus
- *     audiochannel_a2b_0_left_in[]
- *     audiochannel_a2b_0_right_in[]
- *     audiochannel_a2b_1_left_in[]
- *     audiochannel_a2b_1_right_in[]
- *     audiochannel_a2b_2_left_in[]
- *     audiochannel_a2b_2_right_in[]
- *     audiochannel_a2b_3_left_in[]
- *     audiochannel_a2b_3_right_in[]
- *
- *
- *  Audio from Faust (be sure to enable Faust in audio_system_config.h and include the libraries)
- *
- *     audioChannel_faust_0_left_in[]
- *     audioChannel_faust_0_right_in[]
- *     audioChannel_faust_1_left_in[]
- *     audioChannel_faust_1_right_in[]
- *     audioChannel_faust_2_left_in[]
- *     audioChannel_faust_2_right_in[]
- *     audioChannel_faust_3_left_in[]
- *     audioChannel_faust_3_right_in[]
- *
- * Output Buffers
- * **************
- *  Audio to the ADAU1761 DACs
- *     audiochannel_adau1761_0_left_out[]
- *     audiochannel_adau1761_0_left_out[]
- *
- *  Audio to the S/PDIF transmitter
- *     audiochannel_spdif_0_left_out[]
- *     audiochannel_spdif_0_right_out[]
- *
- *  Audio to USB (be sure to enable USB in audio_system_config.h)
- *     audiochannel_USB_0_left_out[]
- *     audiochannel_USB_0_right_out[]
- *
- *  Audio to A2B Bus (be sure to enable A2B in audio_system_config.h)
- *     audiochannel_a2b_0_left_out[]
- *     audiochannel_a2b_0_right_out[]
- *     audiochannel_a2b_1_left_out[]
- *     audiochannel_a2b_1_right_out[]
- *     audiochannel_a2b_2_left_out[]
- *     audiochannel_a2b_2_right_out[]
- *     audiochannel_a2b_3_left_out[]
- *     audiochannel_a2b_3_right_out[]
- *
- *  Audio from Faust (be sure to enable Faust in audio_system_config.h)
- *
- *     audioChannel_faust_0_left_out[]
- *     audioChannel_faust_0_right_out[]
- *     audioChannel_faust_1_left_out[]
- *     audioChannel_faust_1_right_out[]
- *     audioChannel_faust_2_left_out[]
- *     audioChannel_faust_2_right_out[]
- *     audioChannel_faust_3_left_out[]
- *     audioChannel_faust_3_right_out[]
- *
- *  Note: Faust processing occurs before the audio callback so any data
- *  copied into Faust's input buffers will be available the next time
- *  the callback is called.  Similarly, Faust's output buffers contain
- *  audio that was processed before the callback.
- *
- *
- * There is also a set of buffers for sending audio to / from SHARC Core 2
- *
- *  Output to SHARC Core 2
- *     audiochannel_to_sharc_core2_0_left[]
- *     audiochannel_to_sharc_core2_0_right[]
- *     audiochannel_to_sharc_core2_1_left[]
- *     audiochannel_to_sharc_core2_1_right[]
- *     audiochannel_to_sharc_core2_2_left[]
- *     audiochannel_to_sharc_core2_2_right[]
- *     audiochannel_to_sharc_core2_3_left[]
- *     audiochannel_to_sharc_core2_3_right[]
- *
- *  Input from SHARC Core 2 (processed audio from SHARC Core 2)
- *     audiochannel_from_sharc_core2_0_left[]
- *     audiochannel_from_sharc_core2_0_right[]
- *     audiochannel_from_sharc_core2_1_left[]
- *     audiochannel_from_sharc_core2_1_right[]
- *     audiochannel_from_sharc_core2_2_left[]
- *     audiochannel_from_sharc_core2_2_right[]
- *     audiochannel_from_sharc_core2_3_left[]
- *     audiochannel_from_sharc_core2_3_right[]
- *
- * Finally, there is a set of aliased buffers that sends audio to the
- * right place.  On SHARC 1, the In[] buffers are received from the ADC
- * and the Out[] buffers are sent to either SHARC 2 (when in dual core more)
- * or to the DACs (when in single core mode).  The In[] buffers on SHARC core
- * 2 are received from SHARC core 1 and the Out[] buffers are sent to the DACs
- * (via SHARC core 1).
- *
- *     audiochannel_0_left_in[]
- *     audiochannel_0_right_in[]
- *
- *     audiochannel_1_left_out[]
- *     audiochannel_1_right_out[]
- *     audiochannel_2_left_out[]
- *     audiochannel_2_right_out[]
- *     audiochannel_3_left_out[]
- *     audiochannel_3_right_out[]
- *
- *     When the automotive board is being used, there are 16 channels of aliased
- *     buffers, not 8.  So they go up to audiochannel_7_left_in / audiochannel_7_right_in
- *     and audiochannel_7_left_out / audiochannel_7_right_out
- *
- * See the .c/.h file for the corresponding audio framework in the Audio_Frameworks
- * directory to see the buffers that are available for other frameworks (like the
- * 16 channel automotive framework).
- *
- */
+#include <math.h>
 
-
-//BIQUAD_FILTER peak_filter;
-//float pm sos_coeffs[4];
-//float peak_freq = 1000;
 /*
  * Place any initialization code here for the audio processing
  */
 #include "peak_filter.hpp"
+#include "audio_processing/audio_elements/audio_elements_common.h"
 PEAK_FILTER peak_filter;
+float pm sos_coeffs[4];
+float wah_pulse;
+float wah_t_inc;
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -204,68 +42,55 @@ void processaudio_setup(void) {
 	// Add any custom setup code here
 	// *******************************************************************************
 
-//	RESULT_BIQUAD res = filter_setup(&peak_filter,
-//			BIQUAD_TYPE_PEAKING,
-//			BIQUAD_TRANS_VERY_FAST,
-//			sos_coeffs,
-//			peak_freq,
-//			10,
-//			1,
-//			AUDIO_SAMPLE_RATE);
-
+	// Setup filter
 	peak_filter_setup(&peak_filter,
-			1000,
+			200,
 			5,
-			AUDIO_SAMPLE_RATE);
+			AUDIO_SAMPLE_RATE,
+			sos_coeffs);
+
+	// Setup filter modification
+	float wah_freq = 2.5;
+	wah_pulse = 2*PI*wah_freq;
+	wah_t_inc = (float)AUDIO_BLOCK_SIZE / (float)AUDIO_SAMPLE_RATE;
 }
 
-/*
- * This callback is called every time we have a new audio buffer that is ready
- * for processing.  It's currently configured for in-place processing so if no
- * processing is done to the audio, it is passed through unaffected.
- *
- * See the header file for the framework you have selected in the Audio_Frameworks
- * directory for a list of the input and output buffers that are available based on
- * the framework and hardware.
- *
- * The two SHARC cores provide a hefty amount of audio processing power. However, it is important
- * to ensure that any audio processing code can run and complete within one frame of audio.
- *
- * The total number of cycles available in the audio callback can be calculated as follows:
- * total cycles = ( processor-clock-speed * audio-block-size ) / audio-sample-rate
- *
- * For example, if the processor is running at 450MHz, the audio sampling rate is 48KHz and the audio
- * block size is set to 32 words, the total number of processor cycles available in each callback
- * is 300,000 cycles or 300,000/32 or 9,375 per sample of audio
- */
+float map_value(float val, float r1[2], float r2[2]) {
+	float relative_offset = (val - r1[0]) / (r1[1] - r1[0]);
+	return relative_offset * (r2[1] - r2[0]) + r2[0];
+}
 
-// When debugging audio algorithms, helpful to comment out this pragma for more linear single stepping.
 //#pragma optimize_for_speed
-//float counter = 0;
+float wah_range[2] = {0.1, 10};
+float norm_range[2] = {0, 1};
+float freq_range[2] = {200, 1000};
+float counter = 0;
 void processaudio_callback(void) {
-	peak_filter_read(&peak_filter,
-			audiochannel_0_left_in,
-			audiochannel_0_left_out,
-			AUDIO_BLOCK_SIZE);
+	// Modify filter
+//	float wah_amount = powf(10,cosf(wah_pulse*counter*wah_t_inc));
+//	wah_amount = map_value(wah_amount, wah_range, norm_range);
+//	float new_freq = map_value(wah_amount, norm_range, freq_range);
+//	peak_filter_modify_freq(&peak_filter, new_freq);
+//	counter++;
 
+	// Stereo to mono
+	float audio_mono_in[AUDIO_BLOCK_SIZE];
+	float audio_mono_out[AUDIO_BLOCK_SIZE];
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_right_out[i] = audiochannel_0_right_in[i];
+		audio_mono_in[i] = (audiochannel_0_left_in[i] + audiochannel_0_right_in[i]) / 2;
 	}
 
-//	//peak_freq += sin(counter*0.01) * 100;
-//	//counter++;
-//
-//	peak_freq += 1;
-//	if(peak_freq >= 2000) {
-//		RESULT_BIQUAD res = filter_modify_freq(&peak_filter, peak_freq);
-//	}
-//
-//
-//	filter_read(&peak_filter, audiochannel_0_left_in, audiochannel_0_left_out, AUDIO_BLOCK_SIZE);
-//
-//	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-//		audiochannel_0_right_out[i] = audiochannel_0_right_in[i];
-//	}
+	// Apply filter
+	peak_filter_read(&peak_filter,
+			audio_mono_in,
+			audio_mono_out,
+			AUDIO_BLOCK_SIZE);
+
+	// Copy mono audio to each channel
+	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
+		audiochannel_0_left_out[i] = audio_mono_out[i];
+		audiochannel_0_right_out[i] = audio_mono_out[i];
+	}
 }
 
 #if (USE_BOTH_CORES_TO_PROCESS_AUDIO)

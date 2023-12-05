@@ -1,13 +1,13 @@
 <?xml version="1.0" standalone="no"?>
 <?xml-stylesheet type="text/xsl" href="file:///C:/Analog Devices/CrossCore Embedded Studio 2.9.4/System/linker_log.xsl"?>
-<DOCUMENT gen_time='Mon Nov 27 08:36:38 2023
+<DOCUMENT gen_time='Tue Dec  5 10:01:00 2023
 '>
-<MSG id='045C7120' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449380' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio0']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[cache_set_range_ba.doj](seg_int_data)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6860' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449460' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio1']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[dispatched_handler_data_ba.doj](seg_dmda)
@@ -23,13 +23,14 @@
     libc.dlb[sinhf_ba.doj](seg_dmda)
     libosal_noos.dlb[adi_osal_arch_int_table.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C5EC0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04448AC0' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio1_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
-    libc.dlb[sincosine_data_XI.doj](seg_dmda)]]></EXTENDED_INFO>
+    libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C7200' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04448BA0' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio2']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -49,6 +50,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -76,13 +78,14 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C66A0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04448C80' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio2_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
-    libc.dlb[sincosine_data_XI.doj](seg_dmda)]]></EXTENDED_INFO>
+    libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6320' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04448D60' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio3']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -102,6 +105,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -140,20 +144,21 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6080' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04448E40' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_data_prio3_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C72E0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04448F20' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio0']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[cache_set_range_ba.doj](seg_int_data)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C5DE0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449000' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio1']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[dispatched_handler_data_ba.doj](seg_dmda)
@@ -169,13 +174,14 @@
     libc.dlb[sinhf_ba.doj](seg_dmda)
     libosal_noos.dlb[adi_osal_arch_int_table.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C5FA0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449540' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio1_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
-    libc.dlb[sincosine_data_XI.doj](seg_dmda)]]></EXTENDED_INFO>
+    libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6160' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449620' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio2']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -195,6 +201,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -222,13 +229,14 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C7580' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449700' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio2_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
-    libc.dlb[sincosine_data_XI.doj](seg_dmda)]]></EXTENDED_INFO>
+    libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C73C0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='044497E0' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio3']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -248,6 +256,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -286,27 +295,28 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6940' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449E00' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_data_prio3_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C7660' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449C40' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block2_pm_data_prio2']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6240' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449EE0' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block2_pm_data_prio3']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C64E0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='04449D20' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_nw_code_prio0']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_int_code)
@@ -314,7 +324,7 @@
     libc.dlb[cache_set_range_ba.doj](seg_int_code)
     libc.dlb[lib_set_cache_ba.doj](seg_int_code)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C7740' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A34C8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_nw_code_prio1']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[adi_fatal_error.doj](seg_pmco)
@@ -328,6 +338,7 @@
     libc.dlb[sinf_XI.doj](seg_pmco)
     libc.dlb[sinhf_ba.doj](seg_pmco)
     libc.dlb[sqrtf_ba.doj](seg_pmco)
+    libc.dlb[tanf.doj](seg_pmco)
     libosal_noos.dlb[adi_osal_noos_arch_a.doj](seg_pmco)
     libdsp.dlb[fir_vec_misal_simd.doj](seg_pmco)
     libdsp.dlb[fir_vec_nonSIMD.doj](seg_pmco)
@@ -335,7 +346,7 @@
     libdsp.dlb[mean.doj](seg_pmco)
     libdsp.dlb[var.doj](seg_pmco)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C7820' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3F48' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_nw_code_prio2']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_pmco)
@@ -363,6 +374,7 @@
     libc.dlb[sinf_XI.doj](seg_pmco)
     libc.dlb[sinhf_ba.doj](seg_pmco)
     libc.dlb[sqrtf_ba.doj](seg_pmco)
+    libc.dlb[tanf.doj](seg_pmco)
     libosal_noos.dlb[adi_osal_noos_arch_a.doj](seg_pmco)
     libdsp.dlb[fir_vec_misal_simd.doj](seg_pmco)
     libdsp.dlb[fir_vec_nonSIMD.doj](seg_pmco)
@@ -370,7 +382,7 @@
     libdsp.dlb[mean.doj](seg_pmco)
     libdsp.dlb[var.doj](seg_pmco)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6780' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A4028' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_nw_code_prio3']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_pmco)
@@ -402,6 +414,7 @@
     libc.dlb[sinf_XI.doj](seg_pmco)
     libc.dlb[sinhf_ba.doj](seg_pmco)
     libc.dlb[sqrtf_ba.doj](seg_pmco)
+    libc.dlb[tanf.doj](seg_pmco)
     libosal_noos.dlb[adi_osal_noos_arch_a.doj](seg_pmco)
     libdsp.dlb[fir_vec_misal_simd.doj](seg_pmco)
     libdsp.dlb[fir_vec_nonSIMD.doj](seg_pmco)
@@ -409,7 +422,7 @@
     libdsp.dlb[mean.doj](seg_pmco)
     libdsp.dlb[var.doj](seg_pmco)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6400' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3E68' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_nw_code']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_int_code)
@@ -445,6 +458,7 @@
     libc.dlb[sinf_XI.doj](seg_pmco)
     libc.dlb[sinhf_ba.doj](seg_pmco)
     libc.dlb[sqrtf_ba.doj](seg_pmco)
+    libc.dlb[tanf.doj](seg_pmco)
     libosal_noos.dlb[adi_osal_noos_arch_a.doj](seg_pmco)
     libdsp.dlb[fir_vec_misal_simd.doj](seg_pmco)
     libdsp.dlb[fir_vec_nonSIMD.doj](seg_pmco)
@@ -452,7 +466,7 @@
     libdsp.dlb[mean.doj](seg_pmco)
     libdsp.dlb[var.doj](seg_pmco)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='045C6A20' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A4AA8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block2_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -472,6 +486,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -511,27 +526,28 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C4620' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3688' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block2_data_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C49A0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3768' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block0_pm_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3BA0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A4B88' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block1_pm_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C4380' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3BC8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -551,6 +567,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -590,21 +607,22 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3040' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3CA8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_data_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3660' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3068' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_block3_pm_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C47E0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A4728' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_l2_nw_code']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_pmco)
@@ -636,6 +654,7 @@
     libc.dlb[sinf_XI.doj](seg_pmco)
     libc.dlb[sinhf_ba.doj](seg_pmco)
     libc.dlb[sqrtf_ba.doj](seg_pmco)
+    libc.dlb[tanf.doj](seg_pmco)
     libosal_noos.dlb[adi_osal_noos_arch_a.doj](seg_pmco)
     libdsp.dlb[fir_vec_misal_simd.doj](seg_pmco)
     libdsp.dlb[fir_vec_nonSIMD.doj](seg_pmco)
@@ -643,7 +662,7 @@
     libdsp.dlb[mean.doj](seg_pmco)
     libdsp.dlb[var.doj](seg_pmco)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C4700' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3148' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_l2_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -663,6 +682,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -701,26 +721,27 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3D60' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3AE8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_l2_data_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3E40' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A43A8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_l2_pm_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C4A80' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A4108' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_sw_code']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_effects_selector.doj(seg_sdram)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C42A0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A41E8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_nw_code']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_pmco)
@@ -753,6 +774,7 @@
     libc.dlb[sinf_XI.doj](seg_pmco)
     libc.dlb[sinhf_ba.doj](seg_pmco)
     libc.dlb[sqrtf_ba.doj](seg_pmco)
+    libc.dlb[tanf.doj](seg_pmco)
     libosal_noos.dlb[adi_osal_noos_arch_a.doj](seg_pmco)
     libdsp.dlb[fir_vec_misal_simd.doj](seg_pmco)
     libdsp.dlb[fir_vec_nonSIMD.doj](seg_pmco)
@@ -760,20 +782,20 @@
     libdsp.dlb[mean.doj](seg_pmco)
     libdsp.dlb[var.doj](seg_pmco)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C4460' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3D88' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_cpp_eh_gdt_nw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(.gdt)
     app_startup.doj(.gdt)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3F20' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A49C8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_cpp_ctors_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     app_startup.doj(seg_ctdml)
     app_startup.doj(seg_ctdml)
     libc.dlb[set_c.doj](seg_ctdml)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3AC0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3848' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -794,6 +816,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -832,21 +855,22 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C4000' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3928' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_data_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C39E0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A3A08' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_pm_data']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
     src\callback_audio_processing.doj(seg_pmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C40E0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A42C8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_data2']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_frameworks\audio_framework_16ch_sam_and_automotive_fin_core1.doj(seg_dmda)
@@ -867,6 +891,7 @@
     src\drivers\bm_sysctrl_driver\bm_system_control.doj(seg_dmda)
     src\drivers\bm_uart_driver\bm_uart.doj(seg_dmda)
     src\faust\samFaustDSP.doj(seg_dmda)
+    src\peak_filter.doj(seg_dmda)
     src\startup_code_core1.doj(seg_dmda)
     system\startup_ldf\app_heaptab.doj(seg_dmda)
     libc.dlb[adi_fatal_data_ba.doj](seg_dmda)
@@ -905,15 +930,16 @@
     libssl.dlb[adi_tmr.doj](seg_dmda)
     libdrv.dlb[adi_hadc.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C41C0' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A35A8' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_data2_bw']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     libc.dlb[exit_value.doj](seg_dmda)
     libc.dlb[int_dispatcher_215XX_ba.doj](seg_dmda)
     libc.dlb[sincosine_data_XI.doj](seg_dmda)
+    libc.dlb[tanf.doj](seg_dmda)
     libc.dlb[xexit.doj](seg_dmda)]]></EXTENDED_INFO>
 </MSG>
-<MSG id='056C3740' mid='li3050' type='Informational' suppressed=''>
+<MSG id='056A4568' mid='li3050' type='Informational' suppressed=''>
 <TEXT><![CDATA[Input section(s) were excluded from output section 'dxe_sdram_pm_data2']]></TEXT>
 <EXTENDED_INFO><![CDATA[The following input section(s) were excluded
     src\audio_processing\audio_elements\clipper.doj(seg_pmda)
