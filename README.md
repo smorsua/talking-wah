@@ -1,2 +1,2 @@
 # talking-wah
-SHARC-based Wah effec with voice-mimicking capabilities.
+SHARC-based Wah effect with voice-mimicking capabilities.
