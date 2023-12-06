@@ -3,4 +3,5 @@
 [Sing-Wah - A Vocal-Emulation Wah Circuit](http://geofex.com/Article_Folders/sing-wah/sing-wah.htm)
 [Dunlop CryBaby GCB-95 Cicuit Analysis](https://www.electrosmash.com/crybaby-gcb-95)
 [What Is The Auto-Wah/Envelope Filter Modulation Effect?](https://mynewmicrophone.com/what-is-the-auto-wah-envelope-filter-modulation-effect/#Q/Peak/Resonance)
+[What Are Wah-Wah Guitar Effects Pedals & How Do They Work?](https://mynewmicrophone.com/what-are-wah-wah-guitar-effects-pedals-how-do-they-work/)
 [Constant Peak Gain Resonator](https://ccrma.stanford.edu/~jos/fp/Constant_Peak_Gain_Resonator.html)
