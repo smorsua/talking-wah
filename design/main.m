@@ -2,8 +2,18 @@
 audio_block_size = 1000;
 frames = to_frames(input, audio_block_size);
 [~, frame_count] = size(frames);
-peak_freqs = wah_freqs(2, 200, 400, audio_block_size , frame_count, fs);
+%peak_freqs = wah_freqs(5, 300, 700, audio_block_size , frame_count, fs);
+%peak_freqs = peak_freqs.';
 
+env = envelope(input, 10000, 'peak');
+env(1:924) = ones(924,1)*0.25;
+env = normalize(env, 'range', [100 400]);
+[b,a] = butter(4, 1/(fs/2));
+env_lp = filter(b,a,env);
+n = floor(length(env_lp) / frame_count);
+env_lp = downsample(env_lp, n);
+plot(env_lp)
+peak_freqs = env_lp;
 Q = 10;
 
 y = [];
@@ -16,12 +26,8 @@ for loop_i = 1:frame_count
         
     [b,a] = peak_filter(peak_freq, peak_freq / Q, fs);
     [y_peak, zf1] = filter(b,a,sample,zf1);
-
-    peak_freq2 = peak_freq + 600;
-    [b,a] = peak_filter(peak_freq2, peak_freq2 / Q, fs);
-    [y_peak2, zf2] = filter(b,a,sample,zf2);
     
-    y_frame = y_peak + y_peak2;
+    y_frame = y_peak;
     y = [y; y_frame];
 end
 sound(y, fs, 16);
