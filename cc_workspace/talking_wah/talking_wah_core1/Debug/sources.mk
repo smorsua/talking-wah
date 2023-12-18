@@ -29,11 +29,11 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+src \
 src/audio_frameworks \
 src/audio_processing/audio_effects \
 src/audio_processing \
 src/audio_processing/audio_elements \
-src \
 src/common \
 src/drivers/bm_audio_flow_driver \
 src/drivers/bm_event_logging_driver \

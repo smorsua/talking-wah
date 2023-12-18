@@ -5,12 +5,12 @@
  *      Author: acustica
  */
 
-#include "peak_filter.hpp"
 #include "audio_processing/audio_elements/audio_elements_common.h"
 #include "audio_processing/audio_elements/biquad_filter.h"
 #include "math.h"
 #include <filter.h>
 #include <stdint.h>
+#include "peak_filter.h"
 
 static void convert_coeffs(float * coeffs_ab, float pm * sos_coeffs,
 		float * scaling_factor);
@@ -100,5 +100,4 @@ static void convert_coeffs(float * coeffs_ab, float pm * sos_coeffs,
 	sos_coeffs[3] = coeffs_ab[COEFF_B1];
 
 	(*scaling_factor) = coeffs_ab[COEFF_B0];
-
 }

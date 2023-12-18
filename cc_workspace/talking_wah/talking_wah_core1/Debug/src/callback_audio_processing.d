@@ -75,4 +75,6 @@ src/callback_audio_processing.doj: ../../drivers/bm_uart_driver/bm_uart.h
 src/callback_audio_processing.doj: ../src/audio_framework_selector.h
 src/callback_audio_processing.doj: ../src/audio_frameworks/audio_framework_8ch_sam_and_audioproj_fin_core1.h
 src/callback_audio_processing.doj: ../src/callback_audio_processing.h
-src/callback_audio_processing.doj: ../src/peak_filter.hpp
+src/callback_audio_processing.doj: ../src/peak_filter.h
+src/callback_audio_processing.doj: ../src/AutoWah.h
+src/callback_audio_processing.doj: ../src/LevelDetector.h

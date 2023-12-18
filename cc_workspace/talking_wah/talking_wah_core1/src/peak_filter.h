@@ -5,8 +5,8 @@
  *      Author: acustica
  */
 
-#ifndef PEAK_FILTER_HPP_
-#define PEAK_FILTER_HPP_
+#ifndef PEAK_FILTER_H_
+#define PEAK_FILTER_H_
 
 #include <stdint.h>
 
@@ -24,4 +24,5 @@ void peak_filter_read(PEAK_FILTER* f, float* audio_in, float* audio_out,
 		uint32_t audio_block_size);
 void peak_filter_modify_freq(PEAK_FILTER* f, float new_freq);
 void peak_filter_modify_q(PEAK_FILTER* f, float new_q);
-#endif /* PEAK_FILTER_HPP_ */
+
+#endif /* PEAK_FILTER_H_ */

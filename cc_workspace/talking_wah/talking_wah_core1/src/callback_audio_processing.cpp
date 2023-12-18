@@ -24,16 +24,19 @@
 #include "callback_audio_processing.h"
 
 #include <math.h>
+#include <talking_wah_core1/src/peak_filter.h>
 
 /*
  * Place any initialization code here for the audio processing
  */
-#include "peak_filter.hpp"
 #include "audio_processing/audio_elements/audio_elements_common.h"
+#include "AutoWah.h"
 PEAK_FILTER peak_filter;
 float pm sos_coeffs[4];
 float wah_pulse;
 float wah_t_inc;
+
+
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -43,16 +46,16 @@ void processaudio_setup(void) {
 	// *******************************************************************************
 
 	// Setup filter
-	peak_filter_setup(&peak_filter,
-			200,
-			5,
-			AUDIO_SAMPLE_RATE,
-			sos_coeffs);
+//	peak_filter_setup(&peak_filter,
+//			200,
+//			5,
+//			AUDIO_SAMPLE_RATE,
+//			sos_coeffs);
 
 	// Setup filter modification
-	float wah_freq = 2.5;
-	wah_pulse = 2*PI*wah_freq;
-	wah_t_inc = (float)AUDIO_BLOCK_SIZE / (float)AUDIO_SAMPLE_RATE;
+//	float wah_freq = 2.5;
+//	wah_pulse = 2*PI*wah_freq;
+//	wah_t_inc = (float)AUDIO_BLOCK_SIZE / (float)AUDIO_SAMPLE_RATE;
 }
 
 float map_value(float val, float r1[2], float r2[2]) {
@@ -65,14 +68,25 @@ float wah_range[2] = {0.1, 10};
 float norm_range[2] = {0, 1};
 float freq_range[2] = {200, 1000};
 float counter = 0;
-void processaudio_callback(void) {
+void manual_wah(float* audio_in, float* audio_out, uint32_t audio_block_size) {
 	// Modify filter
-//	float wah_amount = powf(10,cosf(wah_pulse*counter*wah_t_inc));
-//	wah_amount = map_value(wah_amount, wah_range, norm_range);
-//	float new_freq = map_value(wah_amount, norm_range, freq_range);
-//	peak_filter_modify_freq(&peak_filter, new_freq);
-//	counter++;
+	float wah_amount = powf(10, cosf(wah_pulse*counter*wah_t_inc));
+	wah_amount = map_value(wah_amount, wah_range, norm_range);
+	float new_freq = map_value(wah_amount, norm_range, freq_range);
+	peak_filter_modify_freq(&peak_filter, new_freq);
+	counter++;
 
+	// Apply filter
+	peak_filter_read(&peak_filter,
+			audio_in,
+			audio_out,
+			AUDIO_BLOCK_SIZE);
+}
+
+AutoWah auto_wah_filter = AutoWah(AUDIO_SAMPLE_RATE, sos_coeffs);
+#pragma retain_name
+float curr_level = 0;
+void processaudio_callback(void) {
 	// Stereo to mono
 	float audio_mono_in[AUDIO_BLOCK_SIZE];
 	float audio_mono_out[AUDIO_BLOCK_SIZE];
@@ -81,15 +95,12 @@ void processaudio_callback(void) {
 	}
 
 	// Apply filter
-	peak_filter_read(&peak_filter,
-			audio_mono_in,
-			audio_mono_out,
-			AUDIO_BLOCK_SIZE);
-
+	auto_wah_filter.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+	curr_level = auto_wah_filter.last_level;
 	// Copy mono audio to each channel
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_left_out[i] = audio_mono_out[i];
-		audiochannel_0_right_out[i] = audio_mono_out[i];
+		audiochannel_0_left_out[i] = audio_mono_out[i] * 2;
+		audiochannel_0_right_out[i] = audio_mono_out[i] * 2;
 	}
 }
 
