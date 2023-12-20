@@ -15,7 +15,7 @@ peak_freqs = downsample(peak_freqs, n);
 
 Q = 6;
 mix = 0.8;
-gain = 6;
+gain = 3;
 
 % Apply LTV filter
 y = [];

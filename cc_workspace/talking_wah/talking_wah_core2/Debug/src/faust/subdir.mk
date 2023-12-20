@@ -17,7 +17,7 @@ CPP_DEPS += \
 src/faust/samFaustDSP.doj: ../src/faust/samFaustDSP.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: CrossCore SHARC C/C++ Compiler'
-	cc21k -c -file-attr ProjectName="talking_wah_core2" -proc ADSP-SC589 -flags-compiler --no_wrap_diagnostics -si-revision 1.0 -O -Ov100 -g -DCORE2 -D_DEBUG @includes-b5f3a1991b53c10a5165072ca304da06.txt -structs-do-not-overlap -no-const-strings -no-multiline -w -double-size-32 -char-size-8 -swc -gnu-style-dependencies -MD -Mo "src/faust/samFaustDSP.d" -c++ -o "$@" "$<"
+	cc21k -c -file-attr ProjectName="talking_wah_core2" -proc ADSP-SC589 -flags-compiler --no_wrap_diagnostics -si-revision 1.0 -O -Ov100 -g -DCORE2 -D_DEBUG @includes-1d4f3bb45db67787308fcb8b1ec6b881.txt -structs-do-not-overlap -no-const-strings -no-multiline -w -double-size-32 -char-size-8 -swc -gnu-style-dependencies -MD -Mo "src/faust/samFaustDSP.d" -c++ -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

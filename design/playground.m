@@ -2,16 +2,17 @@
 audio_block_size = 32;
 [frames, frame_count] = to_frames(input, audio_block_size);
 
-[b,a] = cheby2(4, 60, 30/(fs/2));
+% [b,a] = cheby2(4, 60, 30/(fs/2));
+[b,a] = butter(4, 30/(fs/2));
 zi = [];
 env = [];
 for i=1:frame_count
     abs_frame = abs(frames(:, i));
     [frame_env, zi] = filter(b,a,abs_frame,zi);
-    env = [env; ones(audio_block_size,1)*max(frame_env)];
+    env = [env; max(frame_env)];
 end
 
-plot([env])
+plot(env)
 
 
 % func_env = fullwave_env(input, fs);

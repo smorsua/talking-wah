@@ -10,7 +10,7 @@
 #include "LevelDetector.h"
 
 #define LEVEL_CUTOFF_FREQ (30)
-#define LEVEL_CUTOFF_Q (5)
+#define LEVEL_CUTOFF_Q (30)
 
 LevelDetector::LevelDetector(float audio_sample_rate, float pm * sos_coeffs) {
 	filter_setup(&this->lp_filter,
@@ -49,7 +49,5 @@ float LevelDetector::get_level(float* audio_in, uint32_t audio_block_size) {
 	delete[] env;
 
 	return env_max;
-
-
 }
 

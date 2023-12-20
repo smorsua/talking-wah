@@ -72,11 +72,11 @@ int main(void){
     simple_sysctrl_set_1ms_callback(timer_tick_callback);
 
     // Set up event logging
-    event_logging_initialize_sharc_core(     (char *)multicore_data->sharc_core2_event_message,
+    /*event_logging_initialize_sharc_core(     (char *)multicore_data->sharc_core2_event_message,
                                              (uint32_t *)&multicore_data->sharc_core2_event_emuclk,
                                              (uint32_t *)&multicore_data->sharc_core2_event_emuclk2,
                                              (uint32_t *)&multicore_data->sharc_core2_event_level,
-                                             (uint32_t *)&multicore_data->sharc_core2_new_message_ready);
+                                             (uint32_t *)&multicore_data->sharc_core2_new_message_ready);*/
 
     // If we're using a multicore framework, get audio going over here.
     #if (USE_BOTH_CORES_TO_PROCESS_AUDIO)

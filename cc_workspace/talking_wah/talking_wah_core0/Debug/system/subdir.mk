@@ -17,7 +17,7 @@ C_DEPS += \
 system/adi_initialize.o: ../system/adi_initialize.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: CrossCore ARM Bare Metal C Compiler'
-	arm-none-eabi-gcc -g -gdwarf-2 -ffunction-sections -fdata-sections -D_DEBUG -DCORE0 @includes-4f92b0caa564922802c5f239434fbcb7.txt -Wall -c -mproc=ADSP-SC589 -msi-revision=1.0 -MMD -MP -MF"system/adi_initialize.d" -o  "$@" "$<"
+	arm-none-eabi-gcc -g -gdwarf-2 -ffunction-sections -fdata-sections -D_DEBUG -DCORE0 @includes-07441f603bc8b9f76dbd9491552ef50f.txt -Wall -c -mproc=ADSP-SC589 -msi-revision=1.0 -MMD -MP -MF"system/adi_initialize.d" -o  "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

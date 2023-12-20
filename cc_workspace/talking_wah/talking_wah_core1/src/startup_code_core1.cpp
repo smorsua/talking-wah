@@ -96,11 +96,11 @@ int main(void){
     simple_sysctrl_set_1ms_callback(timer_tick_callback);
 
     // Set up event logging
-    event_logging_initialize_sharc_core(     (char *)multicore_data->sharc_core1_event_message,
-                                             (uint32_t *)&multicore_data->sharc_core1_event_emuclk,
-                                             (uint32_t *)&multicore_data->sharc_core1_event_emuclk2,
-                                             (uint32_t *)&multicore_data->sharc_core1_event_level,
-                                             (uint32_t *)&multicore_data->sharc_core1_new_message_ready);
+//    event_logging_initialize_sharc_core(     (char *)multicore_data->sharc_core1_event_message,
+//                                             (uint32_t *)&multicore_data->sharc_core1_event_emuclk,
+//                                             (uint32_t *)&multicore_data->sharc_core1_event_emuclk2,
+//                                             (uint32_t *)&multicore_data->sharc_core1_event_level,
+//                                             (uint32_t *)&multicore_data->sharc_core1_new_message_ready);
 
     log_event(EVENT_INFO, "SHARC Core 1 is running");
 

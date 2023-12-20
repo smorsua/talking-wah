@@ -31,38 +31,31 @@
  */
 #include "audio_processing/audio_elements/audio_elements_common.h"
 #include "AutoWah.h"
-PEAK_FILTER peak_filter;
-float pm sos_coeffs[4];
-float wah_pulse;
-float wah_t_inc;
-
-void processaudio_setup(void) {
-	// Initialize the audio effects in the audio_processing/ folder
-	audio_effects_setup_core1();
-
-	// *******************************************************************************
-	// Add any custom setup code here
-	// *******************************************************************************
-
-	// Setup filter
-//	peak_filter_setup(&peak_filter,
-//			200,
-//			5,
-//			AUDIO_SAMPLE_RATE,
-//			sos_coeffs);
-
-	// Setup filter modification
-//	float wah_freq = 2.5;
-//	wah_pulse = 2*PI*wah_freq;
-//	wah_t_inc = (float)AUDIO_BLOCK_SIZE / (float)AUDIO_SAMPLE_RATE;
-}
+#include "drivers/bm_uart_driver/bm_uart.h"
 
 float map_value(float val, float r1[2], float r2[2]) {
 	float relative_offset = (val - r1[0]) / (r1[1] - r1[0]);
 	return relative_offset * (r2[1] - r2[0]) + r2[0];
 }
 
-//#pragma optimize_for_speed
+PEAK_FILTER peak_filter;
+float pm sos_coeffs[4];
+float wah_pulse;
+float wah_t_inc;
+void manual_wah_setup() {
+	// Setup filter
+	peak_filter_setup(&peak_filter,
+			200,
+			5,
+			AUDIO_SAMPLE_RATE,
+			sos_coeffs);
+
+	// Setup filter modification
+	float wah_freq = 2.5;
+	wah_pulse = 2*PI*wah_freq;
+	wah_t_inc = (float)AUDIO_BLOCK_SIZE / (float)AUDIO_SAMPLE_RATE;
+}
+
 float wah_range[2] = {0.1, 10};
 float norm_range[2] = {0, 1};
 float freq_range[2] = {200, 1000};
@@ -82,10 +75,27 @@ void manual_wah(float* audio_in, float* audio_out, uint32_t audio_block_size) {
 			AUDIO_BLOCK_SIZE);
 }
 
+BM_UART bm_uart;
+void processaudio_setup(void) {
+	// Initialize the audio effects in the audio_processing/ folder
+	audio_effects_setup_core1();
+
+	// *******************************************************************************
+	// Add any custom setup code here
+	// *******************************************************************************
+
+	// TODO Las dos ultimas opciones no estoy seguro, sobre todo la ultima
+	uart_initialize(&bm_uart, UART_BAUD_RATE_9600, UART_SERIAL_8N1, UART0);
+}
+
+
+
+//#pragma optimize_for_speed
+
+#define BLOCK_LEN (100) // Fatal error if too small
+
 AutoWah auto_wah_filter(AUDIO_SAMPLE_RATE, sos_coeffs);
-#pragma retain_name
-float level[1000];
-int index = 0;
+//#pragma retain_name
 void processaudio_callback(void) {
 	// Stereo to mono
 	float audio_mono_in[AUDIO_BLOCK_SIZE];
@@ -94,13 +104,20 @@ void processaudio_callback(void) {
 		audio_mono_in[i] = (audiochannel_0_left_in[i] + audiochannel_0_right_in[i]) / 2;
 	}
 
+
+	// Format and send level
+	if(uart_available_for_write(&bm_uart) >= BLOCK_LEN) {
+		char value_str[BLOCK_LEN];
+		// int len = sprintf(value_str, "%.16f\n", auto_wah_filter.last_level);
+		int len = sprintf(value_str, "%.16f\n", audio_mono_in[0]);
+		if(len < 0) {
+			return;
+		}
+		uart_write_block(&bm_uart, (uint8_t*)value_str, len);
+	}
+
 	// Apply filter
 	auto_wah_filter.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
-	level[index] = auto_wah_filter.last_level;
-	index++;
-	if(index == 1000) {
-		index = 0;
-	}
 
 	// Copy mono audio to each channel
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
@@ -119,7 +136,7 @@ void processaudio_callback(void) {
  * back from Core 2.  It is this routine where we route these channels to the ADAU1761,
  * the A2B bus, SPDIF, etc.
  */
-#pragma optimize_for_speed
+//#pragma optimize_for_speed
 void processaudio_output_routing(void) {
 
 	static float t = 0;
@@ -179,6 +196,8 @@ void processaudio_output_routing(void) {
 	}
 }
 #endif
+
+
 
 /*
  * This loop function is like a thread with a low priority.  This is good place to process
