@@ -36,7 +36,6 @@ float pm sos_coeffs[4];
 float wah_pulse;
 float wah_t_inc;
 
-
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -83,9 +82,10 @@ void manual_wah(float* audio_in, float* audio_out, uint32_t audio_block_size) {
 			AUDIO_BLOCK_SIZE);
 }
 
-AutoWah auto_wah_filter = AutoWah(AUDIO_SAMPLE_RATE, sos_coeffs);
+AutoWah auto_wah_filter(AUDIO_SAMPLE_RATE, sos_coeffs);
 #pragma retain_name
-float curr_level = 0;
+float level[1000];
+int index = 0;
 void processaudio_callback(void) {
 	// Stereo to mono
 	float audio_mono_in[AUDIO_BLOCK_SIZE];
@@ -96,7 +96,12 @@ void processaudio_callback(void) {
 
 	// Apply filter
 	auto_wah_filter.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
-	curr_level = auto_wah_filter.last_level;
+	level[index] = auto_wah_filter.last_level;
+	index++;
+	if(index == 1000) {
+		index = 0;
+	}
+
 	// Copy mono audio to each channel
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
 		audiochannel_0_left_out[i] = audio_mono_out[i] * 2;

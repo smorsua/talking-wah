@@ -1,8 +1,8 @@
 src/drivers/bm_spi_driver/bm_spi.o: \
- C:/Users/acustica/Documents/smorsua/talking-wah/cc_workspace/talking_wah/drivers/bm_spi_driver/bm_spi.c \
- C:/Users/acustica/Documents/smorsua/talking-wah/cc_workspace/talking_wah/drivers/bm_spi_driver/bm_spi.h \
- c:\users\acustica\documents\smorsua\talking-wah\cc_workspace\talking_wah\drivers\bm_gpio_driver\bm_gpio.h
+ W:/4TO/DSP/talking-wah/cc_workspace/talking_wah/drivers/bm_spi_driver/bm_spi.c \
+ W:/4TO/DSP/talking-wah/cc_workspace/talking_wah/drivers/bm_spi_driver/bm_spi.h \
+ w:\4to\dsp\talking-wah\cc_workspace\talking_wah\drivers\bm_gpio_driver\bm_gpio.h
 
-C:/Users/acustica/Documents/smorsua/talking-wah/cc_workspace/talking_wah/drivers/bm_spi_driver/bm_spi.h:
+W:/4TO/DSP/talking-wah/cc_workspace/talking_wah/drivers/bm_spi_driver/bm_spi.h:
 
-c:\users\acustica\documents\smorsua\talking-wah\cc_workspace\talking_wah\drivers\bm_gpio_driver\bm_gpio.h:
+w:\4to\dsp\talking-wah\cc_workspace\talking_wah\drivers\bm_gpio_driver\bm_gpio.h:

@@ -102,7 +102,7 @@ all: talking_wah_core2.dxe
 talking_wah_core2.dxe: $(LDF_SRCS) $(SRC_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: CrossCore SHARC Linker'
-	cc21k -proc ADSP-SC589 -si-revision 1.0 -TC:/Users/acustica/Documents/smorsua/talking-wah/cc_workspace/talking_wah/talking_wah_core2/system/startup_ldf/app.ldf -no-mem -map talking_wah_core2.map.xml -flags-link -ip -LC:/Users/acustica/Documents/smorsua/talking-wah/cc_workspace/talking_wah/talking_wah_core2/Debug/system/startup_ldf -flags-link -MDCORE2,-MDOTHERCORE,-MDDEBUG -add-debug-libpaths -o talking_wah_core2.dxe @input-file.txt  -flags-link -od,.\.
+	cc21k -proc ADSP-SC589 -si-revision 1.0 -TW:/4TO/DSP/talking-wah/cc_workspace/talking_wah/talking_wah_core2/system/startup_ldf/app.ldf -no-mem -map talking_wah_core2.map.xml -flags-link -ip -LW:/4TO/DSP/talking-wah/cc_workspace/talking_wah/talking_wah_core2/Debug/system/startup_ldf -flags-link -MDCORE2,-MDOTHERCORE,-MDDEBUG -add-debug-libpaths -o talking_wah_core2.dxe @input-file.txt  -flags-link -od,.\.
 	@echo 'Finished building target: $@'
 	@echo ' '
 
