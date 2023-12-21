@@ -42,7 +42,7 @@ PEAK_FILTER peak_filter;
 float pm sos_coeffs[4];
 float wah_pulse;
 float wah_t_inc;
-void manual_wah_setup() {
+void manual_wah_setup(void) {
 	// Setup filter
 	peak_filter_setup(&peak_filter,
 			200,
@@ -85,14 +85,14 @@ void processaudio_setup(void) {
 	// *******************************************************************************
 
 	// TODO Las dos ultimas opciones no estoy seguro, sobre todo la ultima
-	uart_initialize(&bm_uart, UART_BAUD_RATE_9600, UART_SERIAL_8N1, UART0);
+	uart_initialize(&bm_uart, UART_BAUD_RATE_460800, UART_SERIAL_8N1, UART0);
 }
 
 
 
 //#pragma optimize_for_speed
 
-#define BLOCK_LEN (100) // Fatal error if too small
+#define BLOCK_LEN (20) // Fatal error if too small
 
 AutoWah auto_wah_filter(AUDIO_SAMPLE_RATE, sos_coeffs);
 //#pragma retain_name
@@ -101,28 +101,36 @@ void processaudio_callback(void) {
 	float audio_mono_in[AUDIO_BLOCK_SIZE];
 	float audio_mono_out[AUDIO_BLOCK_SIZE];
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audio_mono_in[i] = (audiochannel_0_left_in[i] + audiochannel_0_right_in[i]) / 2;
-	}
-
-
-	// Format and send level
-	if(uart_available_for_write(&bm_uart) >= BLOCK_LEN) {
-		char value_str[BLOCK_LEN];
-		// int len = sprintf(value_str, "%.16f\n", auto_wah_filter.last_level);
-		int len = sprintf(value_str, "%.16f\n", audio_mono_in[0]);
-		if(len < 0) {
-			return;
-		}
-		uart_write_block(&bm_uart, (uint8_t*)value_str, len);
+		audio_mono_in[i] = (audiochannel_0_left_in[i] + audiochannel_0_right_in[i]) * 0.5;
 	}
 
 	// Apply filter
 	auto_wah_filter.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
 
+
 	// Copy mono audio to each channel
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_left_out[i] = audio_mono_out[i] * 2;
-		audiochannel_0_right_out[i] = audio_mono_out[i] * 2;
+		audiochannel_0_left_out[i] = audio_mono_in[i]; // OJO, ESTOY ENVIANDO AUDIO_IN
+		audiochannel_0_right_out[i] = audio_mono_in[i];
+	}
+
+	// Format and send level
+	char value_str[BLOCK_LEN];
+	// int len = sprintf(value_str, "%.16f\n", auto_wah_filter.last_level);
+	int len = sprintf(value_str, "%.8f\n", auto_wah_filter.last_level);
+
+	/*
+	 * Bug de BareMetal: uart_available_for_write devuelve 1 byte más de lo que debería
+	 * porque no quita el byte de margen que debe haber entre el puntero de lectura
+	 * y escritura.
+	 * */
+	if(len < 0 || uart_available_for_write(&bm_uart) - 1 < len) {
+		return;
+	}
+
+	BM_UART_RESULT res = uart_write_block(&bm_uart, (uint8_t*)value_str, len);
+	if (res != UART_SUCCESS) {
+		return;
 	}
 }
 

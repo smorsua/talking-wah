@@ -1,4 +1,5 @@
-[input, fs] = load_audio("ichika.mp3", 5, 56);
+% [input, fs] = load_audio("ichika.mp3", 5, 56);
+[input, fs] = load_audio("jazz.mp3", 5, 0);
 audio_block_size = 32;
 [frames, frame_count] = to_frames(input, audio_block_size);
 

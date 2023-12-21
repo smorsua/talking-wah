@@ -1,33 +1,34 @@
 
 import matplotlib.pyplot as plt 
-import matplotlib.animation as animation
-
-import random
 import serial
 import collections
-import time
 
 PORT_NAME = 'COM28'
-BAUD_RATE = 9600
+BAUD_RATE = 460800
 
-MAX_DEQUE_ITEMS = 1000
+MAX_ITEMS = 1000
 
-d = collections.deque([0]*MAX_DEQUE_ITEMS , maxlen=MAX_DEQUE_ITEMS)
+# d = collections.deque([0]*MAX_DEQUE_ITEMS , maxlen=MAX_DEQUE_ITEMS)
+arr = [0]*MAX_ITEMS
+index = 0;
 plt.style.use('ggplot')
 
+plt.ion()
+
+fig, ax  = plt.subplots()
+line, = ax.plot(arr)
 
 with serial.Serial(PORT_NAME, BAUD_RATE) as ser:        
     # Read loop
     while True:
         # Update deque
-        value = float(ser.readline())
-        if value > 1:
-            continue
-        d.append(value)
+        value = float(ser.readline().decode("ascii"))
+        arr[index] = value
+        index += 1
+        if index >= MAX_ITEMS:
+            index = 0
         
-        # Replot data
-        plt.clf()
-        plt.plot(d, linewidth=0.5)
-        plt.pause(0.05) # Process GUI events
-
-
+        # Update plot
+        line.set_ydata(arr);
+        fig.canvas.draw()
+        fig.canvas.flush_events()
