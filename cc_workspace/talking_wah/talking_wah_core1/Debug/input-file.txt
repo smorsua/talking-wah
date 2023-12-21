@@ -1,4 +1,5 @@
 "src/AutoWah.doj"
+"src/IIRFilter.doj"
 "src/LevelDetector.doj"
 "src/audio_frameworks/audio_framework_16ch_sam_and_automotive_fin_core1.doj"
 "src/audio_frameworks/audio_framework_8ch_sam_and_audioproj_fin_core1.doj"
@@ -37,6 +38,7 @@
 "src/peak_filter.doj"
 "src/startup_code_core1.doj"
 "system/adi_initialize.doj"
+"system/services/gpio/adi_gpio.doj"
 "system/startup_ldf/app_IVT.doj"
 "system/startup_ldf/app_heaptab.doj"
 "system/startup_ldf/app_startup.doj"

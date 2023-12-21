@@ -78,3 +78,4 @@ src/callback_audio_processing.doj: ../src/callback_audio_processing.h
 src/callback_audio_processing.doj: ../src/peak_filter.h
 src/callback_audio_processing.doj: ../src/AutoWah.h
 src/callback_audio_processing.doj: ../src/LevelDetector.h
+src/callback_audio_processing.doj: ../src/IIRFilter.h

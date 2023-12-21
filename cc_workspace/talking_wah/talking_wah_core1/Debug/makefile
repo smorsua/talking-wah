@@ -11,6 +11,7 @@ RM := clean
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include system/startup_ldf/subdir.mk
+-include system/services/gpio/subdir.mk
 -include system/subdir.mk
 -include src/faust/subdir.mk
 -include src/drivers/bm_uart_driver/subdir.mk

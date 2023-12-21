@@ -42,5 +42,6 @@ src/drivers/bm_sysctrl_driver \
 src/drivers/bm_uart_driver \
 src/faust \
 system \
+system/services/gpio \
 system/startup_ldf \
 

@@ -74,6 +74,11 @@
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/drivers/bm_uart_driver</locationURI>
 		</link>
+		<link>
+			<name>system/services/gpio/adi_gpio.c</name>
+			<type>1</type>
+			<locationURI>CCES/SHARC/lib/src/services/Source/gpio/adi_gpio.c</locationURI>
+		</link>
 	</linkedResources>
 	<variableList>
 		<variable>

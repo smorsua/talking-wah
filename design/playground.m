@@ -1,17 +1,21 @@
 % [input, fs] = load_audio("ichika.mp3", 5, 56);
 [input, fs] = load_audio("jazz.mp3", 5, 0);
 audio_block_size = 32;
-[frames, frame_count] = to_frames(input, audio_block_size);
+% [frames, frame_count] = to_frames(input, audio_block_size);
+[z,p,k] = cheby2(4, 40, 10/(fs/2));
+[sos, g] = zp2sos(z,p,k);
+coeffs = adi_sos(sos);
 
-% [b,a] = cheby2(4, 60, 30/(fs/2));
-[b,a] = butter(4, 30/(fs/2));
-zi = [];
-env = [];
-for i=1:frame_count
-    abs_frame = abs(frames(:, i));
-    [frame_env, zi] = filter(b,a,abs_frame,zi);
-    env = [env; max(frame_env)];
-end
+abs_frame = abs(input);
+env = sosfilt(sos, abs_frame);
+env = env * g;
+% zi = [];
+% env = [];
+% for i=1:frame_count
+%     abs_frame = abs(frames(:, i));
+%     frame_env = sosfilt(sos, abs_frame);
+%     env = [env; max(frame_env)];
+% end
 
 plot(env)
 

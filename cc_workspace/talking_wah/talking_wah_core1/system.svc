@@ -8,6 +8,10 @@ A Linker Description File (LDF) defines the target memory map and the placement 
 It provides information needed to link your code. It can be used to configure memory related options, such as the placement of the system heap, system stack, and external memory.]]></component-description>
 			<product name="Startup Code/LDF" version="1.0.0"/>
 		</component>
+		<component id="com.analog.crosscore.addins.ssldd.gpio.sharcxi" name="GPIO Driver for SHARC" version="1.0.0" visible="true">
+			<component-description><![CDATA[This add-in provides Analog Devices' implementation of the General-Purpose input/output Port Driver (GPIO)]]></component-description>
+			<product name="Analog Devices System Services and Device Drivers" version="1.0.0"/>
+		</component>
 	</installedComponents>
 	<configurations>
 		<configuration id="com.analog.sourcegen.component.startup_ldf">

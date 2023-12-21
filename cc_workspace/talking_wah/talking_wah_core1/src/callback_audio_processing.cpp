@@ -32,7 +32,8 @@
 #include "audio_processing/audio_elements/audio_elements_common.h"
 #include "AutoWah.h"
 #include "drivers/bm_uart_driver/bm_uart.h"
-
+#include "drivers/bm_gpio_driver/bm_gpio.h"
+#include "IIRFilter.h"
 float map_value(float val, float r1[2], float r2[2]) {
 	float relative_offset = (val - r1[0]) / (r1[1] - r1[0]);
 	return relative_offset * (r2[1] - r2[0]) + r2[0];
@@ -76,6 +77,26 @@ void manual_wah(float* audio_in, float* audio_out, uint32_t audio_block_size) {
 }
 
 BM_UART bm_uart;
+
+
+bool save_level = false;
+void toggle_save_level(void*) {
+	save_level = true;
+}
+
+#define SECTIONS (2)
+float pm coeffs[4*SECTIONS] = {0.999270361086995,
+		-1.99927020296394,
+		1.00000000000000,
+		-1.99998829970547,
+		0.999716229968718,
+		-1.99971608150189,
+		1.00000000000000,
+		-1.999997992541960};
+float scaling_factor = 9.994966958738340e-04;
+float sos_state[2*SECTIONS + 1];
+
+IIRFilter my_filter(coeffs, scaling_factor, SECTIONS, sos_state);
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -84,54 +105,78 @@ void processaudio_setup(void) {
 	// Add any custom setup code here
 	// *******************************************************************************
 
-	// TODO Las dos ultimas opciones no estoy seguro, sobre todo la ultima
+	// Init UART
 	uart_initialize(&bm_uart, UART_BAUD_RATE_460800, UART_SERIAL_8N1, UART0);
+
+	// Init pushbuttons
+	gpio_setup(GPIO_SHARC_SAM_PB1 , GPIO_INPUT);
+	gpio_attach_interrupt(GPIO_SHARC_SAM_PB1, toggle_save_level, GPIO_FALLING, 0);
 }
 
 
 
-//#pragma optimize_for_speed
 
 #define BLOCK_LEN (20) // Fatal error if too small
 
-AutoWah auto_wah_filter(AUDIO_SAMPLE_RATE, sos_coeffs);
+//AutoWah auto_wah_filter(AUDIO_SAMPLE_RATE, sos_coeffs);
+#define LINES_LEN (1000)
+// float audio_in[LINES_LEN];
+float audio_in_abs[LINES_LEN];
+float audio_env[LINES_LEN];
+// float level[LINES_LEN];
+
+int index = 0;
 //#pragma retain_name
+#pragma optimize_for_speed
 void processaudio_callback(void) {
 	// Stereo to mono
-	float audio_mono_in[AUDIO_BLOCK_SIZE];
-	float audio_mono_out[AUDIO_BLOCK_SIZE];
-	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audio_mono_in[i] = (audiochannel_0_left_in[i] + audiochannel_0_right_in[i]) * 0.5;
-	}
+//	float audio_mono_in[AUDIO_BLOCK_SIZE];
+//	float audio_mono_out[AUDIO_BLOCK_SIZE];
+//	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
+//		audio_mono_in[i] = (audiochannel_0_left_in[i] + audiochannel_0_right_in[i]) * 0.5;
+//	}
 
 	// Apply filter
-	auto_wah_filter.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+//	auto_wah_filter.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+//	if(save_level && index < LINES_LEN) {
+//		//level[index] = auto_wah_filter.last_level;
+//		//audio_in[index] = audio_mono_in[0];
+//		audio_in_abs[index] = auto_wah_filter.level_detector.last_abs;
+//		audio_env[index] = auto_wah_filter.level_detector.last_env;
+//		index++;
+//
+//		if(index == LINES_LEN) {
+//			save_level = false;
+//			index = 0;
+//		}
+//	}
 
+	my_filter.filter(audiochannel_0_left_in, audiochannel_0_left_out, AUDIO_BLOCK_SIZE);
 
 	// Copy mono audio to each channel
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_left_out[i] = audio_mono_in[i]; // OJO, ESTOY ENVIANDO AUDIO_IN
-		audiochannel_0_right_out[i] = audio_mono_in[i];
+//		audiochannel_0_left_out[i] = audio_mono_out[i];
+		audiochannel_0_right_out[i] = audiochannel_0_right_in[i];
 	}
 
-	// Format and send level
-	char value_str[BLOCK_LEN];
-	// int len = sprintf(value_str, "%.16f\n", auto_wah_filter.last_level);
-	int len = sprintf(value_str, "%.8f\n", auto_wah_filter.last_level);
-
-	/*
-	 * Bug de BareMetal: uart_available_for_write devuelve 1 byte más de lo que debería
-	 * porque no quita el byte de margen que debe haber entre el puntero de lectura
-	 * y escritura.
-	 * */
-	if(len < 0 || uart_available_for_write(&bm_uart) - 1 < len) {
-		return;
-	}
-
-	BM_UART_RESULT res = uart_write_block(&bm_uart, (uint8_t*)value_str, len);
-	if (res != UART_SUCCESS) {
-		return;
-	}
+//	// Format and send level
+//	char value_str[BLOCK_LEN];
+//	// int len = sprintf(value_str, "%.16f\n", auto_wah_filter.last_level);
+//	int len = sprintf(value_str, "%.8f\n", auto_wah_filter.last_level);
+//
+//	/*
+//	 * Bug de BareMetal: uart_available_for_write devuelve 1 byte más de lo que debería
+//	 * porque no quita el byte de margen que debe haber entre el puntero de lectura
+//	 * y escritura.
+//	 * */
+//	if(len < 0 || uart_available_for_write(&bm_uart) - 1 < len) {
+//		return;
+//	}
+//
+//	BM_UART_RESULT res = uart_write_block(&bm_uart, (uint8_t*)value_str, len);
+//	if (res != UART_SUCCESS) {
+//		return;
+//	}
 }
 
 #if (USE_BOTH_CORES_TO_PROCESS_AUDIO)
