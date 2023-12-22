@@ -79,3 +79,5 @@ src/callback_audio_processing.doj: ../src/peak_filter.h
 src/callback_audio_processing.doj: ../src/AutoWah.h
 src/callback_audio_processing.doj: ../src/LevelDetector.h
 src/callback_audio_processing.doj: ../src/IIRFilter.h
+src/callback_audio_processing.doj: ../../../../../../../../../Analog\ Devices/CrossCore\ Embedded\ Studio\ 2.9.4/SHARC/include/filter.h
+src/callback_audio_processing.doj: ../../../../../../../../../Analog\ Devices/CrossCore\ Embedded\ Studio\ 2.9.4/SHARC/include/complex.h

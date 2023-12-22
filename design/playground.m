@@ -2,13 +2,16 @@
 [input, fs] = load_audio("jazz.mp3", 5, 0);
 audio_block_size = 32;
 % [frames, frame_count] = to_frames(input, audio_block_size);
-[z,p,k] = cheby2(4, 40, 10/(fs/2));
+[z,p,k] = butter(2, 5/(fs/2));
 [sos, g] = zp2sos(z,p,k);
 coeffs = adi_sos(sos);
 
 abs_frame = abs(input);
 env = sosfilt(sos, abs_frame);
 env = env * g;
+
+plot(env)
+
 % zi = [];
 % env = [];
 % for i=1:frame_count
@@ -17,7 +20,7 @@ env = env * g;
 %     env = [env; max(frame_env)];
 % end
 
-plot(env)
+
 
 
 % func_env = fullwave_env(input, fs);
