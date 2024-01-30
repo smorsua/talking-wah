@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../src/LevelDetector.cpp \
 ../src/callback_audio_processing.cpp \
 ../src/callback_midi_message.cpp \
+../src/manual_wah.cpp \
 ../src/peak_filter.cpp \
 ../src/startup_code_core1.cpp 
 
@@ -18,6 +19,7 @@ SRC_OBJS += \
 ./src/LevelDetector.doj \
 ./src/callback_audio_processing.doj \
 ./src/callback_midi_message.doj \
+./src/manual_wah.doj \
 ./src/peak_filter.doj \
 ./src/startup_code_core1.doj 
 
@@ -27,6 +29,7 @@ CPP_DEPS += \
 ./src/LevelDetector.d \
 ./src/callback_audio_processing.d \
 ./src/callback_midi_message.d \
+./src/manual_wah.d \
 ./src/peak_filter.d \
 ./src/startup_code_core1.d 
 
@@ -64,6 +67,13 @@ src/callback_midi_message.doj: ../src/callback_midi_message.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: CrossCore SHARC C/C++ Compiler'
 	cc21k -c -file-attr ProjectName="talking_wah_core1" -proc ADSP-SC589 -flags-compiler --no_wrap_diagnostics -si-revision 1.0 -g -DCORE1 -D_DEBUG -DADI_DEBUG @includes-116a21481c2a5ce2dd3241251661a105.txt -structs-do-not-overlap -no-const-strings -no-multiline -warn-protos -double-size-32 -char-size-8 -swc -gnu-style-dependencies -MD -Mo "src/callback_midi_message.d" -c++ -o "$@" "$<"
+	@echo 'Finished building: $<'
+	@echo ' '
+
+src/manual_wah.doj: ../src/manual_wah.cpp
+	@echo 'Building file: $<'
+	@echo 'Invoking: CrossCore SHARC C/C++ Compiler'
+	cc21k -c -file-attr ProjectName="talking_wah_core1" -proc ADSP-SC589 -flags-compiler --no_wrap_diagnostics -si-revision 1.0 -g -DCORE1 -D_DEBUG -DADI_DEBUG @includes-116a21481c2a5ce2dd3241251661a105.txt -structs-do-not-overlap -no-const-strings -no-multiline -warn-protos -double-size-32 -char-size-8 -swc -gnu-style-dependencies -MD -Mo "src/manual_wah.d" -c++ -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

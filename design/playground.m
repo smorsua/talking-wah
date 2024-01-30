@@ -1,16 +1,16 @@
-% [input, fs] = load_audio("ichika.mp3", 5, 56);
-[input, fs] = load_audio("jazz.mp3", 5, 0);
-audio_block_size = 32;
-% [frames, frame_count] = to_frames(input, audio_block_size);
-[z,p,k] = butter(2, 5/(fs/2));
-[sos, g] = zp2sos(z,p,k);
-coeffs = adi_sos(sos);
+% % [input, fs] = load_audio("ichika.mp3", 5, 56);
+% [input, fs] = load_audio("jazz.mp3", 5, 4);
+% audio_block_size = 32;
+% % [frames, frame_count] = to_frames(input, audio_block_size);
+% [z,p,k] = butter(2, 100/(fs/2));
+% [sos, g] = zp2sos(z,p,k);
+% coeffs = adi_sos(sos);
+% 
+% abs_frame = abs(input);
+% env = sosfilt(sos, abs_frame);
+% env = env * g;
+% sos coeffs
 
-abs_frame = abs(input);
-env = sosfilt(sos, abs_frame);
-env = env * g;
-
-plot(env)
 
 % zi = [];
 % env = [];
@@ -19,8 +19,9 @@ plot(env)
 %     frame_env = sosfilt(sos, abs_frame);
 %     env = [env; max(frame_env)];
 % end
-
-
+[z,p,k] = cheby2(4, 60, 30/24000);
+[sos, g] = zp2sos(z,p,k);
+[sos_out, gain] = adi_sos(sos,g);
 
 
 % func_env = fullwave_env(input, fs);

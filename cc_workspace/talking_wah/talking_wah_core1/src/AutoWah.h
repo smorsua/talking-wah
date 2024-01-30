@@ -20,7 +20,7 @@ public:
 	PEAK_FILTER peak_filter;
 	float sos_state[3];
 //public:
-	AutoWah(float audio_sample_rate, float pm * sos_coeffs);
+	AutoWah(float pm * sos_coeffs, float* sos_state, float audio_sample_rate);
 	virtual ~AutoWah();
 	void filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
 	float last_level;

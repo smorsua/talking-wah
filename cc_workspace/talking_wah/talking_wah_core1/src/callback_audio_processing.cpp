@@ -30,78 +30,37 @@
  * Place any initialization code here for the audio processing
  */
 #include "audio_processing/audio_elements/audio_elements_common.h"
+#include "audio_processing/audio_elements/biquad_filter.h"
 #include "AutoWah.h"
 #include "drivers/bm_uart_driver/bm_uart.h"
 #include "drivers/bm_gpio_driver/bm_gpio.h"
 #include "IIRFilter.h"
 #include <filter.h>
 
-float map_value(float val, float r1[2], float r2[2]) {
-	float relative_offset = (val - r1[0]) / (r1[1] - r1[0]);
-	return relative_offset * (r2[1] - r2[0]) + r2[0];
-}
+#define SAMPLES AUDIO_BLOCK_SIZE
+#define SECTIONS (2)
 
-PEAK_FILTER peak_filter;
-float pm sos_coeffs[4];
-float wah_pulse;
-float wah_t_inc;
-void manual_wah_setup(void) {
-	// Setup filter
-	peak_filter_setup(&peak_filter,
-			200,
-			5,
-			AUDIO_SAMPLE_RATE,
-			sos_coeffs);
+float pm sos_coeffs[4*SECTIONS] = {
+		-0.997812677410834,
+		1.99781125533812,
+		1.00000000000000,
+		-1.99989469957271,
+		-0.999148930694631,
+		1.99914759486959,
+		1.00000000000000,
+		-1.99998193290891};
+float sos_state[2*SECTIONS + 1];
 
-	// Setup filter modification
-	float wah_freq = 2.5;
-	wah_pulse = 2*PI*wah_freq;
-	wah_t_inc = (float)AUDIO_BLOCK_SIZE / (float)AUDIO_SAMPLE_RATE;
-}
-
-float wah_range[2] = {0.1, 10};
-float norm_range[2] = {0, 1};
-float freq_range[2] = {200, 1000};
-float counter = 0;
-void manual_wah(float* audio_in, float* audio_out, uint32_t audio_block_size) {
-	// Modify filter
-	float wah_amount = powf(10, cosf(wah_pulse*counter*wah_t_inc));
-	wah_amount = map_value(wah_amount, wah_range, norm_range);
-	float new_freq = map_value(wah_amount, norm_range, freq_range);
-	peak_filter_modify_freq(&peak_filter, new_freq);
-	counter++;
-
-	// Apply filter
-	peak_filter_read(&peak_filter,
-			audio_in,
-			audio_out,
-			AUDIO_BLOCK_SIZE);
-}
-
-
-bool save_level = false;
+#define LEVEL_ARR_LEN (7500)
+float level[LEVEL_ARR_LEN];
+int index = 0;
 void toggle_save_level(void*) {
-	save_level = true;
+	index = 0;
 }
 
-#define SECTIONS (1)
-float pm coeffs[4*SECTIONS];
-float state[2*SECTIONS + 1];
+AutoWah my_autowah(sos_coeffs, sos_state, AUDIO_SAMPLE_RATE);
 
-struct {
- float a0;
- float a1;
- float a2;
-} A_coeffs[SECTIONS];
-
-struct {
- float b0;
- float b1;
- float b2;
-} B_coeffs[SECTIONS];
-
-float scale = 1.0;
-
+LevelDetector ld(sos_coeffs, sos_state, AUDIO_SAMPLE_RATE);
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -110,48 +69,30 @@ void processaudio_setup(void) {
 	// Add any custom setup code here
 	// *******************************************************************************
 
+
 	// Init pushbuttons
 	gpio_setup(GPIO_SHARC_SAM_PB1 , GPIO_INPUT);
 	gpio_attach_interrupt(GPIO_SHARC_SAM_PB1, toggle_save_level, GPIO_FALLING, 0);
-
-	A_coeffs[0].a0 = 1;
-	A_coeffs[0].a1 = -1.81534108270456817635363222507294267416;
-	A_coeffs[0].a2 = 0.831005589346757611579619151598308235407;
-
-	B_coeffs[0].b0 = 1;
-	B_coeffs[0].b1 = 2;
-	B_coeffs[0].b2 = 1;
-
-	float a0,a1,a2;
-	float b0,b1,b2;
-
-	for (int i = 0; i < SECTIONS; i++) {
-		a0 = A_coeffs[i].a0;
-		a1 = A_coeffs[i].a1;
-		a2 = A_coeffs[i].a2;
-		coeffs[(i*4) + 0] = (a2/a0);
-		coeffs[(i*4) + 1] = (a1/a0);
-		b0 = B_coeffs[i].b0;
-		b1 = B_coeffs[i].b1;
-		b2 = B_coeffs[i].b2;
-		coeffs[(i*4) + 2] = (b2/b0);
-		coeffs[(i*4) + 3] = (b1/b0);
-		scale = scale * (b0/a0);
-	}
-
-
 }
 
-//IIRFilter my_filter(coeffs, scale, SECTIONS, sos_state);
 
-
-#pragma optimize_for_speed
+//#pragma optimize_for_speed
 void processaudio_callback(void) {
-	iir(audiochannel_0_left_in, audiochannel_0_left_out, coeffs, state, AUDIO_BLOCK_SIZE, SECTIONS);
+	float audio_mono_in[AUDIO_BLOCK_SIZE];
+	float audio_mono_out[AUDIO_BLOCK_SIZE];
 
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_left_out[i] = audiochannel_0_left_out[i] * scale;
-		audiochannel_0_right_out[i] = audiochannel_0_right_in[i];
+		audio_mono_in[i] = 0.5 * audiochannel_0_left_in[i] + 0.5 * audiochannel_0_right_in[i];
+	}
+
+	if(index < LEVEL_ARR_LEN){
+		level[index++] = ld.get_level(audio_mono_in, AUDIO_BLOCK_SIZE);
+	}
+
+	my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
+		audiochannel_0_left_out[i] = audio_mono_out[i] * 3;
+		audiochannel_0_right_out[i] = audio_mono_out[i] * 3;
 	}
 }
 

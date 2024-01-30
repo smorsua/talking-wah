@@ -35,6 +35,7 @@
 "src/drivers/bm_sysctrl_driver/bm_system_control.doj"
 "src/drivers/bm_uart_driver/bm_uart.doj"
 "src/faust/samFaustDSP.doj"
+"src/manual_wah.doj"
 "src/peak_filter.doj"
 "src/startup_code_core1.doj"
 "system/adi_initialize.doj"

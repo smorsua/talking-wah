@@ -7,16 +7,25 @@
 
 #include <talking_wah_core1/src/IIRFilter.h>
 #include <filter.h>
+#include <stddef.h>
+#include <stdint.h>
+
+IIRFilter::IIRFilter(): sections(0),
+				sos_coeffs(NULL),
+				sos_state(NULL),
+				scaling_factor(0)	{
+
+}
 
 IIRFilter::IIRFilter(float pm * sos_coeffs,
+		float * sos_state,
 		float scaling_factor,
-		int sections,
-		float * sos_state): sections(sections),
+		int sections): sections(sections),
 				sos_coeffs(sos_coeffs),
 				sos_state(sos_state),
 				scaling_factor(scaling_factor)	{
 	// Zero state
-	for (int i = 0; i < (2*sections+1); i++) {
+	for (int i = 0; i < 2*sections + 1; i++) {
 		this->sos_state[i] = 0;
 	}
 }

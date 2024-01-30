@@ -9,16 +9,16 @@
 #define LEVELDETECTOR_H_
 
 #include <stdint.h>
-#include "audio_processing/audio_elements/biquad_filter.h"
+#include "IIRFilter.h"
 
 class LevelDetector {
 //private:
 public:
-	BIQUAD_FILTER lp_filter;
+	IIRFilter lp_filter;
 	float last_abs;
 	float last_env;
 //public:
-	LevelDetector(float audio_sample_rate, float pm * sos_coeffs);
+	LevelDetector(float pm * sos_coeff, float* sos_state, float audio_sample_rate);
 	virtual ~LevelDetector();
 	float get_level(float* audio_in, uint32_t audio_block_size);
 };
