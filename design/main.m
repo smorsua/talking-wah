@@ -1,4 +1,4 @@
-[input, fs] = load_audio("jazz.mp3", 5, 3);
+[input, fs] = load_audio("jazz.mp3", 40, 0);
 
 audio_block_size = 1000;
 [frames, frame_count] = to_frames(input, audio_block_size);

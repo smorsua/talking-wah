@@ -18,12 +18,13 @@ IIRFilter::IIRFilter(): sections(0),
 }
 
 IIRFilter::IIRFilter(float pm * sos_coeffs,
-		float * sos_state,
 		float scaling_factor,
 		int sections): sections(sections),
 				sos_coeffs(sos_coeffs),
-				sos_state(sos_state),
 				scaling_factor(scaling_factor)	{
+
+	this->sos_state = new float[2*sections+1];
+
 	// Zero state
 	for (int i = 0; i < 2*sections + 1; i++) {
 		this->sos_state[i] = 0;
@@ -31,7 +32,7 @@ IIRFilter::IIRFilter(float pm * sos_coeffs,
 }
 
 IIRFilter::~IIRFilter() {
-	// TODO Auto-generated destructor stub
+	delete[] this->sos_state;
 }
 
 void IIRFilter::filter(float* audio_in, float* audio_out, uint32_t audio_block_size) {

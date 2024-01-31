@@ -13,16 +13,14 @@
 #include "peak_filter.h"
 
 class AutoWah {
-//private:
-public:
+private:
 	LevelDetector level_detector;
-
 	PEAK_FILTER peak_filter;
-	float sos_state[3];
-//public:
-	AutoWah(float pm * sos_coeffs, float* sos_state, float audio_sample_rate);
+	float pm * peak_filter_coeffs;
+public:
+	AutoWah(float audio_sample_rate);
 	virtual ~AutoWah();
-	void filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
+	float filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
 	float last_level;
 };
 

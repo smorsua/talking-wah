@@ -13,20 +13,21 @@
 #include "peak_filter.h"
 
 static void convert_coeffs(float * coeffs_ab, float pm * sos_coeffs,
-		float * scaling_factor);
+		float * scaling_factor, float gain);
 
 static void filter_generate_coeffs(float freq, float q,
 		float audio_sample_rate, float * result);
 
-void peak_filter_setup(PEAK_FILTER* f, float freq, float q, float audio_sample_rate, float pm * sos_coeffs) {
+void peak_filter_setup(PEAK_FILTER* f, float freq, float q, float gain, float audio_sample_rate, float pm * sos_coeffs) {
 	f->sos_coeffs = sos_coeffs;
-	float coeffs_ab[6];
-	filter_generate_coeffs(freq, q, audio_sample_rate, coeffs_ab);
-	convert_coeffs(coeffs_ab, f->sos_coeffs, &f->scaling_factor);
-
 	f->audio_sample_rate = audio_sample_rate;
 	f->freq = freq;
 	f->q = q;
+	f->gain = gain;
+	float coeffs_ab[6];
+	filter_generate_coeffs(freq, q, audio_sample_rate, coeffs_ab);
+	convert_coeffs(coeffs_ab, f->sos_coeffs, &f->scaling_factor, f->gain);
+
 
 	// Zero out filter state line
 	for (int i = 0; i < 3; i++) {
@@ -49,7 +50,7 @@ void peak_filter_modify_freq(PEAK_FILTER* f, float new_freq) {
 	f->freq = new_freq;
 	float coeffs_ab[6];
 	filter_generate_coeffs(new_freq, f->q, f->audio_sample_rate, coeffs_ab);
-	convert_coeffs(coeffs_ab, f->sos_coeffs, &f->scaling_factor);
+	convert_coeffs(coeffs_ab, f->sos_coeffs, &f->scaling_factor, f->gain);
 }
 
 #define COEFF_B0    (0)
@@ -86,7 +87,7 @@ static void filter_generate_coeffs(float freq, float q,
  * @return Result enum - see .h file for details
  */
 static void convert_coeffs(float * coeffs_ab, float pm * sos_coeffs,
-		float * scaling_factor) {
+		float * scaling_factor, float gain) {
 
 	coeffs_ab[COEFF_B1] = coeffs_ab[COEFF_B1] / coeffs_ab[COEFF_B0];
 	coeffs_ab[COEFF_B2] = coeffs_ab[COEFF_B2] / coeffs_ab[COEFF_B0];
@@ -99,5 +100,5 @@ static void convert_coeffs(float * coeffs_ab, float pm * sos_coeffs,
 	sos_coeffs[2] = coeffs_ab[COEFF_B2];
 	sos_coeffs[3] = coeffs_ab[COEFF_B1];
 
-	(*scaling_factor) = coeffs_ab[COEFF_B0];
+	(*scaling_factor) = coeffs_ab[COEFF_B0]*gain;
 }

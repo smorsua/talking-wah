@@ -37,30 +37,16 @@
 #include "IIRFilter.h"
 #include <filter.h>
 
-#define SAMPLES AUDIO_BLOCK_SIZE
-#define SECTIONS (2)
-
-float pm sos_coeffs[4*SECTIONS] = {
-		-0.997812677410834,
-		1.99781125533812,
-		1.00000000000000,
-		-1.99989469957271,
-		-0.999148930694631,
-		1.99914759486959,
-		1.00000000000000,
-		-1.99998193290891};
-float sos_state[2*SECTIONS + 1];
-
-#define LEVEL_ARR_LEN (7500)
-float level[LEVEL_ARR_LEN];
+#define ARR_LEN (7500)
+float peak_freq[ARR_LEN];
+float level[ARR_LEN];
 int index = 0;
-void toggle_save_level(void*) {
+void toggle_save(void*) {
 	index = 0;
 }
 
-AutoWah my_autowah(sos_coeffs, sos_state, AUDIO_SAMPLE_RATE);
-
-LevelDetector ld(sos_coeffs, sos_state, AUDIO_SAMPLE_RATE);
+//AutoWah my_autowah(AUDIO_SAMPLE_RATE);
+LevelDetector ld(AUDIO_SAMPLE_RATE);
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -69,10 +55,9 @@ void processaudio_setup(void) {
 	// Add any custom setup code here
 	// *******************************************************************************
 
-
 	// Init pushbuttons
 	gpio_setup(GPIO_SHARC_SAM_PB1 , GPIO_INPUT);
-	gpio_attach_interrupt(GPIO_SHARC_SAM_PB1, toggle_save_level, GPIO_FALLING, 0);
+	gpio_attach_interrupt(GPIO_SHARC_SAM_PB1, toggle_save, GPIO_FALLING, 0);
 }
 
 
@@ -85,14 +70,16 @@ void processaudio_callback(void) {
 		audio_mono_in[i] = 0.5 * audiochannel_0_left_in[i] + 0.5 * audiochannel_0_right_in[i];
 	}
 
-	if(index < LEVEL_ARR_LEN){
-		level[index++] = ld.get_level(audio_mono_in, AUDIO_BLOCK_SIZE);
+//	float freq = my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+	if(index < ARR_LEN) {
+//		peak_freq[index] = freq;
+//		level[index] = my_autowah.last_level;
+		level[index] = ld.get_level(audio_mono_in, AUDIO_BLOCK_SIZE);
+		index++;
 	}
-
-	my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_left_out[i] = audio_mono_out[i] * 3;
-		audiochannel_0_right_out[i] = audio_mono_out[i] * 3;
+		audiochannel_0_left_out[i] = audio_mono_in[i];
+		audiochannel_0_right_out[i] = audio_mono_in[i];
 	}
 }
 
