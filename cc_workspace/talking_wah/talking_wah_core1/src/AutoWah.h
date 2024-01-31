@@ -11,16 +11,17 @@
 #include <stdint.h>
 #include "LevelDetector.h"
 #include "peak_filter.h"
+#include "audio_processing/audio_elements/biquad_filter.h"
 
 class AutoWah {
 private:
 	LevelDetector level_detector;
 	PEAK_FILTER peak_filter;
-	float pm * peak_filter_coeffs;
+	BIQUAD_FILTER lp_filter;
 public:
-	AutoWah(float audio_sample_rate);
+	AutoWah(float audio_sample_rate, pm float * peak_filter_coeffs);
 	virtual ~AutoWah();
-	void filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
+	float filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
 	float last_level;
 };
 

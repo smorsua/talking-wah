@@ -14,7 +14,7 @@
 class LevelDetector {
 private:
 	IIRFilter lp_filter;
-	float pm * lp_filter_coeffs;
+	pm float * lp_filter_coeffs;
 public:
 	LevelDetector(float audio_sample_rate);
 	virtual ~LevelDetector();

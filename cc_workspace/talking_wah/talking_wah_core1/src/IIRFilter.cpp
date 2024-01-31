@@ -17,17 +17,17 @@ IIRFilter::IIRFilter(): sections(0),
 
 }
 
-IIRFilter::IIRFilter(float pm * sos_coeffs,
+IIRFilter::IIRFilter(pm float * sos_coeffs,
 		float scaling_factor,
 		int sections): sections(sections),
 				sos_coeffs(sos_coeffs),
 				scaling_factor(scaling_factor)	{
 
-	this->sos_state = new float[2*sections+1];
+	this->sos_state = new dm float[2*sections+1];
 
 	// Zero state
 	for (int i = 0; i < 2*sections + 1; i++) {
-		this->sos_state[i] = 0;
+		this->sos_state[i] = 0.0;
 	}
 }
 

@@ -45,9 +45,9 @@ int index = 0;
 void toggle_save(void*) {
 	index = 0;
 }
-
-AutoWah my_autowah(AUDIO_SAMPLE_RATE);
-LevelDetector ld(AUDIO_SAMPLE_RATE);
+pm float peak_filter_coeffs[4];
+AutoWah my_autowah(AUDIO_SAMPLE_RATE, peak_filter_coeffs);
+//LevelDetector ld(AUDIO_SAMPLE_RATE);
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
 	audio_effects_setup_core1();
@@ -71,9 +71,10 @@ void processaudio_callback(void) {
 		audio_mono_in[i] = 0.5 * audiochannel_0_left_in[i] + 0.5 * audiochannel_0_right_in[i];
 	}
 
-	my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+	float freq = my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
 	if(index < ARR_LEN) {
-		level[index] = ld.get_level(audio_mono_in, AUDIO_BLOCK_SIZE);
+		//level[index] = ld.get_level(audio_mono_in, AUDIO_BLOCK_SIZE);
+		peak_freq[index] = freq;
 		level_auto[index] = my_autowah.last_level;
 		index++;
 	}
