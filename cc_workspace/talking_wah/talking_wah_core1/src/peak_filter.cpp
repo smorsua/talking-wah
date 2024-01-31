@@ -95,6 +95,8 @@ static void convert_coeffs(float * coeffs_ab, float pm * sos_coeffs,
 	coeffs_ab[COEFF_A1] = -coeffs_ab[COEFF_A1] / coeffs_ab[COEFF_A0];
 	coeffs_ab[COEFF_A2] = -coeffs_ab[COEFF_A2] / coeffs_ab[COEFF_A0];
 
+	// CAMBIAR SOS_COEFFS DESDE peak_filter_modify_freq ES LO QUE CAUSA QUE LOS LEVEL DETECTOR
+	// NO COINCIDAN
 	sos_coeffs[0] = coeffs_ab[COEFF_A2];
 	sos_coeffs[1] = coeffs_ab[COEFF_A1];
 	sos_coeffs[2] = coeffs_ab[COEFF_B2];

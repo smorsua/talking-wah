@@ -20,7 +20,7 @@ private:
 public:
 	AutoWah(float audio_sample_rate);
 	virtual ~AutoWah();
-	float filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
+	void filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
 	float last_level;
 };
 

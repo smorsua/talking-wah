@@ -10,7 +10,7 @@
 #define AUTOWAH_MIN_FREQ (200)
 #define AUTOWAH_MAX_FREQ (1000)
 #define AUTOWAH_MIN_LEVEL (0)
-#define AUTOWAH_MAX_LEVEL (0.08)
+#define AUTOWAH_MAX_LEVEL (0.18)
 
 #define AUTOWAH_Q (6)
 
@@ -28,12 +28,11 @@ AutoWah::~AutoWah() {
 	delete[] this->peak_filter_coeffs;
 }
 
-float AutoWah::filter(float* audio_in, float* audio_out, uint32_t audio_block_size) {
+void AutoWah::filter(float* audio_in, float* audio_out, uint32_t audio_block_size) {
 	float level = this->level_detector.get_level(audio_in, audio_block_size);
-	float last_level = level;
+	this->last_level = level;
 	float peak_freq = (level - AUTOWAH_MIN_LEVEL) * ((AUTOWAH_MAX_FREQ - AUTOWAH_MIN_FREQ) / (AUTOWAH_MAX_LEVEL - AUTOWAH_MIN_LEVEL)) + AUTOWAH_MIN_FREQ;
 	peak_filter_modify_freq(&this->peak_filter, peak_freq);
-	peak_filter_read(&this->peak_filter, audio_in, audio_out, audio_block_size);
-	return peak_freq;
+    peak_filter_read(&this->peak_filter, audio_in, audio_out, audio_block_size);
 }
 

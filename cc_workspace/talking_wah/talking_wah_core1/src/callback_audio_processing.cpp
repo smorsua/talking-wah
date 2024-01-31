@@ -40,12 +40,13 @@
 #define ARR_LEN (7500)
 float peak_freq[ARR_LEN];
 float level[ARR_LEN];
+float level_auto[ARR_LEN];
 int index = 0;
 void toggle_save(void*) {
 	index = 0;
 }
 
-//AutoWah my_autowah(AUDIO_SAMPLE_RATE);
+AutoWah my_autowah(AUDIO_SAMPLE_RATE);
 LevelDetector ld(AUDIO_SAMPLE_RATE);
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder
@@ -70,16 +71,15 @@ void processaudio_callback(void) {
 		audio_mono_in[i] = 0.5 * audiochannel_0_left_in[i] + 0.5 * audiochannel_0_right_in[i];
 	}
 
-//	float freq = my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
+	my_autowah.filter(audio_mono_in, audio_mono_out, AUDIO_BLOCK_SIZE);
 	if(index < ARR_LEN) {
-//		peak_freq[index] = freq;
-//		level[index] = my_autowah.last_level;
 		level[index] = ld.get_level(audio_mono_in, AUDIO_BLOCK_SIZE);
+		level_auto[index] = my_autowah.last_level;
 		index++;
 	}
 	for(int i = 0; i < AUDIO_BLOCK_SIZE; i++) {
-		audiochannel_0_left_out[i] = audio_mono_in[i];
-		audiochannel_0_right_out[i] = audio_mono_in[i];
+		audiochannel_0_left_out[i] = audio_mono_out[i];
+		audiochannel_0_right_out[i] = audio_mono_out[i];
 	}
 }
 

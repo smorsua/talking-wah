@@ -8,7 +8,7 @@ audio_block_size = 1000;
 % % env = 10 .^env;
 
 env = fullwave_env(input, fs);
-env = attack_release_filter(env, 0.01, 0.1, fs);
+%env = attack_release_filter(env, 0.01, 0.1, fs);
 peak_freqs = normalize(env, 'range', [200, 1000]);
 n = floor(length(peak_freqs) / frame_count);
 peak_freqs = downsample(peak_freqs, n);
