@@ -45,8 +45,10 @@ int index = 0;
 void toggle_save(void*) {
 	index = 0;
 }
+
 pm float peak_filter_coeffs[4];
-AutoWah my_autowah(AUDIO_SAMPLE_RATE, peak_filter_coeffs);
+pm float lp_filter_coeffs[8];
+AutoWah my_autowah(AUDIO_SAMPLE_RATE, peak_filter_coeffs,  lp_filter_coeffs);
 //LevelDetector ld(AUDIO_SAMPLE_RATE);
 void processaudio_setup(void) {
 	// Initialize the audio effects in the audio_processing/ folder

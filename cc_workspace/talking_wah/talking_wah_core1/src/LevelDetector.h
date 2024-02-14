@@ -16,7 +16,7 @@ private:
 	IIRFilter lp_filter;
 	pm float * lp_filter_coeffs;
 public:
-	LevelDetector(float audio_sample_rate);
+	LevelDetector(float audio_sample_rate, pm float * lp_filter_coeffs);
 	virtual ~LevelDetector();
 	float get_level(float* audio_in, uint32_t audio_block_size);
 };

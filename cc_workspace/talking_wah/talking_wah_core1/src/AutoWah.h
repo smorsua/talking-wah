@@ -19,7 +19,7 @@ private:
 	PEAK_FILTER peak_filter;
 	BIQUAD_FILTER lp_filter;
 public:
-	AutoWah(float audio_sample_rate, pm float * peak_filter_coeffs);
+	AutoWah(float audio_sample_rate, pm float * peak_filter_coeffs,  pm float * lp_filter_coeffs);
 	virtual ~AutoWah();
 	float filter(float* audio_in, float* audio_out, uint32_t audio_block_size);
 	float last_level;

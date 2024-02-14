@@ -12,8 +12,8 @@
 #define LEVEL_CUTOFF_FREQ (30)
 #define LEVEL_Q (5)
 
-LevelDetector::LevelDetector(float audio_sample_rate) {
-	this->lp_filter_coeffs = new pm float[8];
+LevelDetector::LevelDetector(float audio_sample_rate, pm float * lp_filter_coeffs) {
+	this->lp_filter_coeffs = lp_filter_coeffs;
 	this->lp_filter_coeffs[0] = -0.997812677410834;
 	this->lp_filter_coeffs[1] = 1.99781125533812;
 	this->lp_filter_coeffs[2] = 1.00000000000000;
